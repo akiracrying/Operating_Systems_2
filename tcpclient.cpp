@@ -140,32 +140,17 @@ int send_info(char arr[100][100], int s, int msgs) {
 	int stop = 0;
 	int check_send = 0;
 	unsigned int tmp_num = 0; // номер не пустого сообщения
-	//while (res = (recv(s, buff, sizeof(buff), 0)) > 0) {
 	for (u_long i = 0; i < msgs; i++) {
 			message str = msg_init(arr[i], tmp_num);
 
 			if (str.error_code == EMPTY_LINE) {
 				continue;
 			}
-			/*
-			printf("%s ", str.dd1);
-			printf("%s ", str.mm1);
-			printf("%s ", str.yyyy1);
-			printf("%s ", str.dd2);
-			printf("%s ", str.mm2);
-			printf("%s ", str.yyyy2);
-			printf("%s ", str.hh);
-			printf("%s ", str.mm3);
-			printf("%s ", str.ss);
-			printf("%s ", str.msg);
-			printf("\n");
-			*/
+
 			unsigned int str_num = htonl(str.num);
 			char out[5] = {0};
 			memcpy(out, &str_num, sizeof(int));
 			send(s, out, 4, 0);   // str number
-
-			//_ultoa(htonl(str.num), out, 2);
 
 			if (str.error_code == STOP) {
 				stop = 1;
@@ -260,9 +245,6 @@ int main(int* argc, char* argv[]) {
 	port = strtok(NULL, ":");
 
 	u_short u_port = (u_short)strtoul(port, NULL, 0);
-	//printf("%s\n", ip);
-	//printf("%s\n", port);
-	//printf("%s\n", file_name);
 	int s;
 
 	FILE* f;
@@ -281,14 +263,6 @@ int main(int* argc, char* argv[]) {
 		}
 		msgs = i;
 	}
-	//for (int i = 0; i < msgs; i++) {
-	//	for (int j = 0; ; j++) {
-	//		printf("%c", values[i][j]);
-	//		if (values[i][j] == '\n')
-	//			break;
-	//	}
-	//	//printf("\n");
-	//}
 
 	s = socket(AF_INET, SOCK_STREAM, 0);
 
